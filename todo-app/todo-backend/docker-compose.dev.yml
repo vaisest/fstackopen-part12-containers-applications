@@ -10,5 +10,15 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
       MONGO_INITDB_DATABASE: the_database
+  redis:
+    image: redis
+    restart: always
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/data
+    
 volumes:
   mongodata:
+  redisdata:
