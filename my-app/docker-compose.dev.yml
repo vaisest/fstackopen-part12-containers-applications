@@ -1,0 +1,36 @@
+services:
+  front:
+    image: library-frontend
+    build:
+      context: ./library-frontend
+      dockerfile: dev.Dockerfile
+    # ports:
+    #   - 3000:3000
+    environment:
+      - REACT_APP_GQL_URL=http://localhost/api/
+      - REACT_APP_GQL_WS_URL=http://localhost/api/graphql
+  server:
+    image: library-backend
+    build:
+      context: ./library-backend
+      dockerfile: dev.Dockerfile
+    environment:
+      MONGODB_URI: mongodb://root:example@mongo:27017/
+      SECRET: "key"
+    # ports:
+    #   - 4000:4000
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    depends_on:
+      - front
+      - server
+    container_name: reverse-proxy
