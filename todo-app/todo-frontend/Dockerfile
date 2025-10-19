@@ -6,7 +6,9 @@ COPY . .
 
 RUN npm ci
 
-ENV VITE_BACKEND_URL="http://localhost:3000/"
+# https://github.com/docker/compose/issues/5600
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
 RUN env=test npm test
 RUN npm run build
 
