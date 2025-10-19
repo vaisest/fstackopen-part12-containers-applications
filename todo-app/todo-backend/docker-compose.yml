@@ -1,6 +1,10 @@
 services:
   app:
-   image: todo-backend
-   build: .
-   ports:
+    image: todo-backend
+    build: .
+    ports:
     - 3000:3000
+    environment:
+      - MONGO_URL=mongodb://127.0.0.1:3456/the_database
+      
+  
