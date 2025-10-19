@@ -1,20 +1,10 @@
 import React from 'react'
 
-const TodoList = ({ todos, deleteTodo, completeTodo }) => {
-  const onClickDelete = (todo) => () => {
-    deleteTodo(todo)
-  }
-
-  const onClickComplete = (todo) => () => {
-    completeTodo(todo)
-  }
-
-  return (
-    <>
-      {todos.map(todo => {
+export const Todo = ({todo, onClickDelete, onClickComplete}) => 
+{
         const doneInfo = (
           <>
-            <span>This todo is done</span>
+            <span id="todoIsDone">This todo is done</span>
             <span>
               <button onClick={onClickDelete(todo)}> Delete </button>
             </span>
@@ -23,7 +13,7 @@ const TodoList = ({ todos, deleteTodo, completeTodo }) => {
 
         const notDoneInfo = (
           <>
-            <span>
+            <span id="todoIsDone">
               This todo is not done
             </span>
             <span>
@@ -35,13 +25,27 @@ const TodoList = ({ todos, deleteTodo, completeTodo }) => {
 
         return (
           <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '70%', margin: 'auto' }}>
-            <span>
+            <span id="todoText">
               {todo.text} 
             </span>
             {todo.done ? doneInfo : notDoneInfo}
           </div>
         )
-      }).reduce((acc, cur) => [...acc, <hr />, cur], [])}
+      }
+
+
+const TodoList = ({ todos, deleteTodo, completeTodo }) => {
+  const onClickDelete = (todo) => () => {
+    deleteTodo(todo)
+  }
+
+  const onClickComplete = (todo) => () => {
+    completeTodo(todo)
+  }
+
+  return (
+    <>
+      {todos.map(todo => <Todo todo={todo} onClickComplete={onClickComplete} onClickDelete={onClickDelete} key={todo._id} />).reduce((acc, cur) => [...acc, <hr />, cur], [])}
     </>
   )
 }
